@@ -48,14 +48,16 @@
           <!-- Partager la galerie -->
           <div class="option">
             <input type="text" name="newOwnerUsername" placeholder="Nom d'utilisateur" [(ngModel)]="newOwnerUsername">
-            <button mat-raised-button color="primary">Partager la galerie
+            <button mat-raised-button color="primary" (click)="partagerGallery(newOwnerUsername)">Partager la galerie
               <mat-icon>supervised_user_circle</mat-icon></button>
           </div>
 
           <!-- Changer la visibilité -->
           <div class="option">
-            <button mat-raised-button>Rendre privée <mat-icon>verified_user</mat-icon></button>
-            <button mat-raised-button>Rendre publique <mat-icon>remove_red_eye</mat-icon></button>
+            <button mat-raised-button (click)="putPrivateGallery()">Rendre privée
+              <mat-icon>verified_user</mat-icon></button>
+            <button mat-raised-button (click)="putPublicGallery()">Rendre publique
+              <mat-icon>remove_red_eye</mat-icon></button>
           </div>
 
           <!-- Supprimer la galerie -->

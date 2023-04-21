@@ -27,11 +27,13 @@ export class MyGalleriesComponent implements OnInit {
     this.getMyGalleries();
   }
 
+  //Sélectionner la galerie
   onItemClick(item: Gallery) {
     this.gallerySelected = item;
     console.log("Une nouvelle gallerie est sélectionnée")
   }
 
+  //GetMyGalleries qui ne fonctionne pas à cause du token
   async getMyGalleries(): Promise<Gallery[]> {
     let token = localStorage.getItem("token");
     let httpOptions = {
@@ -40,12 +42,12 @@ export class MyGalleriesComponent implements OnInit {
         'Authorization': 'Bearer ' + token
       })
     };
-    let x = await lastValueFrom(this.http.get<Gallery[]>(domain + "api/Galleries/GetGalleries", httpOptions));
+    let x = await lastValueFrom(this.http.get<Gallery[]>(domain + "api/Galleries/GetMyGalleries", httpOptions));
     this.galleryList = x;
     console.log(this.galleryList)
     return this.galleryList;
   }
-
+  //Bouton publier
   async postGallery(): Promise<void> {
     let token = localStorage.getItem("token");
     let httpOptions = {
@@ -61,6 +63,7 @@ export class MyGalleriesComponent implements OnInit {
     this.newGalleryName = "";
   }
 
+  //Associé à rien pour le moment, n'est qu'un template
   async putGallery(): Promise<void> {
     let token = localStorage.getItem("token");
     if (this.gallerySelected != undefined) {
@@ -69,6 +72,31 @@ export class MyGalleriesComponent implements OnInit {
       console.log(x);
     }
   }
+
+  //Bouton public
+  async putPublicGallery(): Promise<void> {
+    let token = localStorage.getItem("token");
+
+    this.newGalleryIsPublic = true;
+    if (this.gallerySelected != undefined) {
+      let updatedGallery = new Gallery(this.gallerySelected.id, this.gallerySelected.name, this.newGalleryIsPublic, this.ownerList);
+      let x = await lastValueFrom(this.http.put<Gallery>(domain + "/api/Galleries/PutGallery/" + this.gallerySelected.id, updatedGallery));
+      console.log(x);
+    }
+  }
+
+  //Bouton privé
+  async putPrivateGallery(): Promise<void> {
+    let token = localStorage.getItem("token");
+
+    this.newGalleryIsPublic = false;
+    if (this.gallerySelected != undefined) {
+      let updatedGallery = new Gallery(this.gallerySelected.id, this.gallerySelected.name, this.newGalleryIsPublic, this.ownerList);
+      let x = await lastValueFrom(this.http.put<Gallery>(domain + "/api/Galleries/PutGallery/" + this.gallerySelected.id, updatedGallery));
+      console.log(x);
+    }
+  }
+  //Bouton partager
   async partagerGallery(nom: string): Promise<void> {
     let token = localStorage.getItem("token");
     if (this.gallerySelected != undefined) {
@@ -77,8 +105,7 @@ export class MyGalleriesComponent implements OnInit {
       console.log(x);
     }
   }
-
-
+  //Bouton delete
   async deleteGallery(): Promise<void> {
     let token = localStorage.getItem("token");
     let httpOptions = {
