@@ -1,0 +1,2 @@
+Création de galerie, suppression et modif(?) ne fonctionne pas. Plusieurs erreurs différentes.
+Je crois que cela viens du token qui se transmet mal ? À chaque fois, l'utilisateur n'est pas reconnu par le serveur.
